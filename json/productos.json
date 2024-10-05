@@ -1,0 +1,45 @@
+[
+    {
+        "id": 1,
+        "imagen": "img/main/proteina.png",
+        "nombre": "proteina whey",
+        "precio": 200,
+        "cantidad": 1
+    },
+    {
+        "id": 2,
+        "imagen": "img/main/creatina.png",
+        "nombre": "creatina",
+        "precio": 100,
+        "cantidad": 1
+    },
+    {
+        "id": 3,
+        "imagen": "img/main/preworkout.png",
+        "nombre": "pre workout",
+        "precio": 150,
+        "cantidad": 1
+    },
+    {
+        "id": 4,
+        "imagen": "img/main/straps.png",
+        "nombre": "straps",
+        "precio": 80,
+        "cantidad": 1
+    },
+    {
+        
+        "id": 5,
+        "imagen": "img/main/cinturon.png",
+        "nombre": "cinturon",
+        "precio": 300,
+        "cantidad": 1
+    },
+    {
+        "id": 6,
+        "imagen": "img/main/rodilleras.png",
+        "nombre": "rodilleras",
+        "precio": 250,
+        "cantidad": 1
+    }
+]

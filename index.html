@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JS -->
+     <script defer src="js/productos.js"></script>
+     <script defer src="js/carrito.js"></script>
+
+     <!-- CSS -->
+      <link rel="stylesheet" href="css/styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <img src="img/header/logo1.png" alt="">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+    
+            <!-- Carrito Icono -->
+            <div class="carrito-container">
+                <button id="carrito-btn">Carrito 🛒 (<span id="cantidad-productos">0</span>)</button>
+                <div id="carrito-dropdown" class="carrito-dropdown">
+                    <h3>Mi Carrito</h3>
+                    <ul id="carrito"></ul>
+                    <p id="total">Total: $0</p>
+                    <button id="comprar" class="btn">Comprar</button>
+                    <button id="vaciar-carrito" class="btn">Vaciar Carrito</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h1>Bienvenidos a nuestra Tienda Online</h1>
+        <article id="productos"></article>
+        
+        
+        <!-- datos para realizar la compra -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+              <span class="modal-close">&times;</span>
+              <h2>Datos del cliente</h2>
+              <form id="client-form">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" class="inputs" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="inputs" required>
+                
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" class="inputs" required>
+                
+                <button id="confirmarCompra" type="submit">Confirmar Compra</button>
+              </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+          <a href="" target="_blank"><img src="img/footer-contactos/instagram.png" alt="Instragam logo" target="_blank"></a>
+          <a href="" target="_blank"><img src="img/footer-contactos/whatsapp.png" alt="Whatsapp logo"></a>
+          <a href="" target="_blank"><img src="img/footer-contactos/x.png" alt="Twitter logo"></a>
+          <a href="" target="_blank"><img src="img/footer-contactos/facebook.png" alt="Facebook logo"></a>
+        </div>
+  
+  
+        <h3>Copyright Pimentel Facundo ©</h3>
+      </footer>
+
+
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
