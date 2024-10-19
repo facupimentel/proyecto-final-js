@@ -20,7 +20,7 @@ mostrarProductos()
 
 // Función para obtener los productos del archivo .json
 function obtenerProductos() {
-    fetch('./json/productos.json')  
+    fetch('json/productos.json')  
         .then(response => response.json()) 
         .then(data => {
             productos = data

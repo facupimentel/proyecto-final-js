@@ -19,49 +19,61 @@ function deleteCarrito(idProducto) {
 //ESTA FUNCION VA ACTUALIZANDO EL CARRITO DE COMPRAS
 
 function actualizarCarrito() {
-    contenedorCarrito.innerHTML = ""
+    contenedorCarrito.innerHTML = ""; // Limpiar el contenedor del carrito
 
     carrito.forEach((producto) => {
-        let li = document.createElement("li")
+        let li = document.createElement("li");
         li.innerHTML = `
             <h4>${producto.nombre}</h4>
             <p>Precio: $${producto.precio}</p>
             <button class="plus-button">+</button>
             <span class="counter">${producto.cantidad}</span>
             <button class="minus-button">-</button>
-        `
-        contenedorCarrito.appendChild(li)
+            <button class="delete-button">Eliminar</button> <!-- Botón para eliminar el producto -->
+        `;
+        contenedorCarrito.appendChild(li);
 
-        const plusButton = li.querySelector('.plus-button')
-        const minusButton = li.querySelector('.minus-button')
-        const counter = li.querySelector('.counter')
+        const plusButton = li.querySelector('.plus-button');
+        const minusButton = li.querySelector('.minus-button');
+        const counter = li.querySelector('.counter');
+        const deleteButton = li.querySelector('.delete-button'); // Referencia al botón de eliminar
 
+        // Evento para aumentar la cantidad
         plusButton.addEventListener('click', () => {
-            producto.cantidad += 1
-            counter.innerText = producto.cantidad
-            actualizarCarrito()
-        })
+            producto.cantidad += 1;
+            counter.innerText = producto.cantidad;
+            actualizarCarrito();
+        });
 
+        // Evento para disminuir la cantidad
         minusButton.addEventListener('click', () => {
             if (producto.cantidad > 1) {
-                producto.cantidad -= 1
-                counter.innerText = producto.cantidad
-                actualizarCarrito()
+                producto.cantidad -= 1;
+                counter.innerText = producto.cantidad;
+                actualizarCarrito();
             } else {
-                deleteCarrito(producto.id)  
+                deleteCarrito(producto.id); // Llamar a la función para eliminar el producto
             }
-        })
+        });
 
+        // Evento para eliminar el producto del carrito
+        deleteButton.addEventListener('click', () => {
+            deleteCarrito(producto.id); // Llama a la función para eliminar el producto
+            actualizarCarrito(); // Actualiza el carrito después de eliminar
+        });
+    });
 
-    })
+    // Calcular el total y la cantidad de productos en el carrito
+    let total = carrito.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0);
+    totalCarrito.innerText = `Total: $${total}`;
 
+    let cantidad = carrito.reduce((acc, producto) => acc + producto.cantidad, 0);
+    cantidadProducto.innerText = cantidad; 
+}
 
-    let total = carrito.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0)
-    totalCarrito.innerText = `Total: $${total}`
-
-    let cantidad = carrito.reduce((acc, producto) => acc + producto.cantidad, 0)
-    cantidadProducto.innerText = cantidad 
-    
+// Función para eliminar un producto del carrito
+function deleteCarrito(productId) {
+    carrito = carrito.filter(producto => producto.id !== productId); // Filtra el carrito para eliminar el producto
 }
     
 
@@ -116,12 +128,11 @@ let nombre = document.getElementById("nombre")
 let email = document.getElementById("email")
 let telefono = document.getElementById("telefono")
 let confirmarCompra = document.getElementById("confirmarCompra")
+let resumenModal = document.getElementById("resumenModal")
 
 comprarCarrito.addEventListener("click", () => {
     if (carrito.length > 0 ) {
-        comprarCarrito.addEventListener("click", () => {
-            modal.style.display = "flex";
-        })
+        modal.style.display = "flex"
     } else {
         Swal.fire({
             icon: "error",
@@ -131,20 +142,19 @@ comprarCarrito.addEventListener("click", () => {
     }
 })
 
-let carritoBtn = document.getElementById("carrito-btn");
 
-// Evento para mostrar/ocultar el menú del carrito
+let carritoBtn = document.getElementById("carrito-btn")
 carritoBtn.addEventListener("click", () => {
-    carritoDropdown.classList.toggle("visible");
+    carritoDropdown.classList.toggle("visible")
 })
 
 
-// Cerrar modal cuando se hace clic en la "X"
+
 closeBtn.addEventListener("click", () => {
-    modal.style.display = "none"; // Ocultar el modal
+    modal.style.display = "none";
 })
 
-// Cerrar modal cuando se hace clic fuera del contenido del modal
+
 window.addEventListener("click", (e) => {
     if (e.target == modal) {
         modal.style.display = "none"
@@ -152,25 +162,47 @@ window.addEventListener("click", (e) => {
 })
 
 
-// al confirmar la compra salta alerta de confirmacion, si no se completan todos los campos  salta error.
 
-confirmarCompra.addEventListener("click", () => {
+
+confirmarCompra.addEventListener("click", (event) => {
     event.preventDefault()
-    
+
     try {
-        // Verificar si los campos están vacíos
+        
         if (nombre.value.trim() !== "" && email.value.trim() !== "" && telefono.value.trim() !== "") {
+            
+            const resumen = `
+                <h2>Resumen de la Compra</h2>
+                <p><strong>Nombre del Cliente:</strong> ${nombre.value}</p>
+                <p><strong>Email:</strong> ${email.value}</p>
+                <p><strong>Teléfono:</strong> ${telefono.value}</p>
+                <h3>Productos:</h3>
+                <ul>
+                    ${carrito.map(producto => `
+                        <li>${producto.nombre} - Cantidad: ${producto.cantidad} - Precio: $${producto.precio * producto.cantidad}</li>
+                    `).join('')}
+                </ul>
+                <p><strong>Total:</strong> $${carrito.reduce((acc, producto) => acc + producto.precio * producto.cantidad, 0)}</p>
+                <p>Gracias por su compra. Recibirá más detalles por correo electrónico.</p>
+            `
+
+            
+            resumenModal.querySelector('#resumenCompra').innerHTML = resumen;
+            resumenModal.style.display = "flex"; 
+
+            
             Swal.fire({
                 icon: 'success',
                 title: 'Compra realizada',
-                text: 'A tu correo te llegará el resumen y toda la demas información.',
+                text: 'A tu correo te llegará el resumen y toda la demás información.',
             }).then(() => {
-                 carrito = []
-                 localStorage.removeItem("carrito")
-                 actualizarCarrito()
-                 modal.style.display = "none"
+                carrito = []
+                localStorage.removeItem("carrito");
+                actualizarCarrito() 
+                modal.style.display = "none" 
             })
         } else {
+            
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -178,7 +210,7 @@ confirmarCompra.addEventListener("click", () => {
             })
         }
     } catch (error) {
-        console.error('Error al procesar la compra:', error);
+        console.error('Error al procesar la compra:', error)
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -190,3 +222,13 @@ confirmarCompra.addEventListener("click", () => {
 })
 
 
+resumenModal.querySelector(".modal-close").addEventListener("click", () => {
+    resumenModal.style.display = "none"; 
+})
+
+
+window.addEventListener("click", (e) => {
+    if (e.target == resumenModal) {
+        resumenModal.style.display = "none"
+    }
+})
